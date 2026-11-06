@@ -12,4 +12,8 @@ public abstract class AbstractEntity {
     protected void generateID() {
         id = UUID.randomUUID().toString();
     }
+
+    public String getID() {
+        return this.id;
+    }
 }
