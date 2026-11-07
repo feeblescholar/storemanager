@@ -18,26 +18,26 @@ public class ProductStorage extends AbstractStorage<Product> implements StorageC
     public void create(@NotNull ProductDTO dto) {
         Product product = new Product();
         product.updateFromDTO(dto);
-        storage.add(product);
+        add(product);
     }
 
     @Override
     public ProductDTO read(@NotNull String uuid) {
-        return storage.get(findFirstWithID(uuid)).toDTO();
+        return findWithID(uuid).toDTO();
     }
 
     @Override
     public List<ProductDTO> readAll() {
-        return storage.stream().map(Product::toDTO).collect(Collectors.toCollection(ArrayList::new));
+        return storage.values().stream().map(Product::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
     public void update(@NotNull String uuid, @NotNull ProductDTO dto) {
-        storage.get(findFirstWithID(uuid)).updateFromDTO(dto);
+        findWithID(uuid).updateFromDTO(dto);
     }
 
     @Override
     public void delete(@NotNull String uuid) {
-        storage.remove(findFirstWithID(uuid));
+        removeWithID(uuid);
     }
 }

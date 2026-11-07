@@ -18,26 +18,26 @@ public class EmployeeStorage extends AbstractStorage<Employee> implements Storag
     public void create(@NotNull EmployeeDTO dto) {
         Employee employee = new Employee();
         employee.updateFromDTO(dto);
-        storage.add(employee);
+        add(employee);
     }
 
     @Override
     public EmployeeDTO read(@NotNull String uuid) {
-        return storage.get(findFirstWithID(uuid)).toDTO();
+        return findWithID(uuid).toDTO();
     }
 
     @Override
     public List<EmployeeDTO> readAll() {
-        return storage.stream().map(Employee::toDTO).collect(Collectors.toCollection(ArrayList::new));
+        return storage.values().stream().map(Employee::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
     public void update(@NotNull String uuid, @NotNull EmployeeDTO dto) {
-        storage.get(findFirstWithID(uuid)).updateFromDTO(dto);
+        findWithID(uuid).updateFromDTO(dto);
     }
 
     @Override
     public void delete(@NotNull String uuid) {
-        storage.remove(findFirstWithID(uuid));
+        removeWithID(uuid);
     }
 }
