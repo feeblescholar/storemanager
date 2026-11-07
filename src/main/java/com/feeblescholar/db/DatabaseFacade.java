@@ -23,7 +23,7 @@ public class DatabaseFacade implements DatabaseCommand {
             storeStorage.read(relation.getUUID1());
             employeeStorage.read(relation.getUUID2());
         }
-        catch (NoSuchElementException _) {
+        catch (NoSuchElementException nse) {
             throw new NoSuchEntityException("Relation cannot be resolved: No such store or employee with the given ID.");
         }
     }
@@ -33,7 +33,7 @@ public class DatabaseFacade implements DatabaseCommand {
             storeStorage.read(relation.getUUID1());
             productStorage.read(relation.getUUID2());
         }
-        catch (NoSuchElementException _) {
+        catch (NoSuchElementException nse) {
             throw new NoSuchEntityException("Relation cannot be resolved: No such store or product with the given ID.");
         }
     }
@@ -136,7 +136,7 @@ public class DatabaseFacade implements DatabaseCommand {
         try {
             storeStorage.delete(storeDTO.id());
         }
-        catch (NoSuchElementException _) {
+        catch (NoSuchElementException nse) {
             throw new NoSuchEntityException("Store does not exist with the given ID.");
         }
     }
@@ -146,7 +146,7 @@ public class DatabaseFacade implements DatabaseCommand {
         try {
             employeeStorage.delete(employeeDTO.id());
         }
-        catch (NoSuchElementException _) {
+        catch (NoSuchElementException nse) {
             throw new NoSuchEntityException("Employee does not exist with the given ID.");
         }
     }
@@ -156,7 +156,7 @@ public class DatabaseFacade implements DatabaseCommand {
         try {
             productStorage.delete(productDTO.id());
         }
-        catch (NoSuchElementException _) {
+        catch (NoSuchElementException nse) {
             throw new NoSuchEntityException("Product does not exist with the given ID.");
         }
     }
