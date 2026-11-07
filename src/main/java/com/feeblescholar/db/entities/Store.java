@@ -1,7 +1,5 @@
 package com.feeblescholar.db.entities;
 
-import java.util.Objects;
-
 public class Store extends AbstractEntity implements Transferable<StoreDTO> {
     private String name;
     private String address;
@@ -41,17 +39,5 @@ public class Store extends AbstractEntity implements Transferable<StoreDTO> {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Store store = (Store) o;
-        return Objects.equals(name, store.name) && Objects.equals(address, store.address);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, address);
     }
 }

@@ -1,7 +1,5 @@
 package com.feeblescholar.db.entities;
 
-import java.util.Objects;
-
 public class Relation extends AbstractEntity implements Transferable<RelationDTO> {
 
     private String uuid1;
@@ -38,17 +36,5 @@ public class Relation extends AbstractEntity implements Transferable<RelationDTO
 
     public void setUUID2(String uuid2) {
         this.uuid2 = uuid2;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Relation relation = (Relation) o;
-        return Objects.equals(uuid1, relation.uuid1) && Objects.equals(uuid2, relation.uuid2);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(uuid1, uuid2);
     }
 }

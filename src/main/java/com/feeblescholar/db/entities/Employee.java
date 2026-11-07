@@ -1,7 +1,6 @@
 package com.feeblescholar.db.entities;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 public class Employee extends AbstractEntity implements Transferable<EmployeeDTO> {
     private String name;
@@ -98,23 +97,5 @@ public class Employee extends AbstractEntity implements Transferable<EmployeeDTO
 
     public void setDateTerminated(LocalDate dateTerminated) {
         this.dateTerminated = dateTerminated;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return salary == employee.salary &&
-                hasTaxExemption == employee.hasTaxExemption &&
-                Objects.equals(name, employee.name) &&
-                Objects.equals(position, employee.position) &&
-                Objects.equals(exemptionName, employee.exemptionName) &&
-                Objects.equals(dateJoined, employee.dateJoined) &&
-                Objects.equals(dateTerminated, employee.dateTerminated);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, position, salary, hasTaxExemption, exemptionName, dateJoined, dateTerminated);
     }
 }
