@@ -16,6 +16,7 @@ public class JunctionParser implements ContainerDSLParser<Relation> {
                 continue;
             }
             switch (key) {
+                case "id" -> store.setID(value);
                 case "uuid1" -> store.setUUID1(value);
                 case "uuid2" -> store.setUUID2(value);
                 default -> throw new IllegalStateException("Unexpected key: " + key);

@@ -17,6 +17,7 @@ public class ProductParser implements ContainerDSLParser<Product> {
                 continue;
             }
             switch (key) {
+                case "id" -> product.setID(value);
                 case "name" -> product.setName(value);
                 case "description" -> product.setDescription(value);
                 case "manufacturer" -> product.setManufacturer(value);

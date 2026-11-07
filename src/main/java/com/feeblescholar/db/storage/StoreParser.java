@@ -17,6 +17,7 @@ public class StoreParser implements ContainerDSLParser<Store> {
                 continue;
             }
             switch (key) {
+                case "id" -> store.setID(value);
                 case "name" -> store.setName(value);
                 case "address" -> store.setAddress(value);
                 default -> throw new IllegalStateException("Unexpected key: " + key);

@@ -19,6 +19,9 @@ public interface ContainerDSLParser<T extends AbstractEntity> extends DSLParser<
      * @param containerDSL The string to be parsed in DSL.
      */
     public default List<T> containerFromDSL(@NotNull String containerDSL) {
+        if (containerDSL.isBlank()) {
+            return new ArrayList<>();
+        }
         String[] objects = containerDSL.split("\\|");
         return Arrays.stream(objects).map(this::objectFromDSL).collect(Collectors.toCollection(ArrayList::new));
     }

@@ -19,6 +19,7 @@ public class EmployeeParser implements ContainerDSLParser<Employee> {
                 continue;
             }
             switch (key) {
+                case "id" -> employee.setID(value);
                 case "name" -> employee.setName(value);
                 case "position" -> employee.setPosition(value);
                 case "salary" -> employee.setSalary(Integer.parseInt(value));
