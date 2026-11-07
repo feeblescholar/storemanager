@@ -12,5 +12,5 @@ public interface DSLParser<T extends AbstractEntity> {
      * Note: if an object does not list all of its attributes the default value is null.
      * @param dsl The string to be parsed in DSL.
      */
-    public T objectFromDSL(@NotNull String dsl);
+    T objectFromDSL(@NotNull String dsl);
 }

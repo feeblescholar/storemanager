@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface JunctionCommand {
 
-    public void addRelation(@NotNull RelationDTO dto);
+    void addRelation(@NotNull RelationDTO dto);
 
-    public List<RelationDTO> getRelationsWithParent(@NotNull String parentUUID);
+    List<RelationDTO> getRelationsWithParent(@NotNull String parentUUID);
 
-    public List<RelationDTO> getRelationsWithChild(@NotNull String childUUID);
+    List<RelationDTO> getRelationsWithChild(@NotNull String childUUID);
 
-    public void removeRelation(@NotNull RelationDTO dto);
+    void removeRelation(@NotNull RelationDTO dto);
 
-    public void removeAllChildren(@NotNull String parentUUID);
+    void removeAllChildren(@NotNull String parentUUID);
 
-    public void removeIfHasChild(@NotNull String childUUID);
+    void removeIfHasChild(@NotNull String childUUID);
 }

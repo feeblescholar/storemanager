@@ -3,8 +3,8 @@ package com.feeblescholar.db.entities;
 import java.util.Objects;
 
 public class Store extends AbstractEntity implements Transferable<StoreDTO> {
-    String name;
-    String address;
+    private String name;
+    private String address;
 
     public Store() {
         super();
@@ -23,7 +23,6 @@ public class Store extends AbstractEntity implements Transferable<StoreDTO> {
 
     @Override
     public void updateFromDTO(StoreDTO storeDTO) {
-        this.id = storeDTO.id();
         this.name = storeDTO.name();
         this.address = storeDTO.address();
     }

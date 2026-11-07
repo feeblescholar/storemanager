@@ -20,7 +20,6 @@ public class Relation extends AbstractEntity implements Transferable<RelationDTO
 
     @Override
     public void updateFromDTO(RelationDTO newData) {
-        this.id = newData.id();
         this.uuid1 = newData.uuid1();
         this.uuid2 = newData.uuid2();
     }

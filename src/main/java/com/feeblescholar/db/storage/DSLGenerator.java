@@ -12,5 +12,5 @@ public interface DSLGenerator<T extends AbstractEntity> {
      * Note: null attributes are written as null.
      * @param object The object to be serialized in DSL.
      */
-    public String objectToDSL(@NotNull T object);
+    String objectToDSL(@NotNull T object);
 }

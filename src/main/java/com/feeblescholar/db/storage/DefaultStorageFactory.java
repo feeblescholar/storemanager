@@ -3,7 +3,7 @@ package com.feeblescholar.db.storage;
 import com.feeblescholar.db.entities.*;
 import org.jetbrains.annotations.NotNull;
 
-public class StorageFactory implements AbstractStorageFactory {
+public class DefaultStorageFactory implements AbstractStorageFactory {
 
     @Override
     public <T> StorageCommand<T> createStorage(@NotNull StorageType storageType) {

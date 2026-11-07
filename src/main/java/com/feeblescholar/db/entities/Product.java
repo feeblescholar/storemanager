@@ -31,7 +31,6 @@ public class Product extends AbstractEntity implements Transferable<ProductDTO> 
 
     @Override
     public void updateFromDTO(ProductDTO product) {
-        id = product.id();
         name = product.name();
         description = product.description();
         manufacturer = product.manufacturer();

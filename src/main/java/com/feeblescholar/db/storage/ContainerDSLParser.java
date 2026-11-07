@@ -18,7 +18,7 @@ public interface ContainerDSLParser<T extends AbstractEntity> extends DSLParser<
      * Note: if an object does not list all of its attributes the default value is null.
      * @param containerDSL The string to be parsed in DSL.
      */
-    public default List<T> containerFromDSL(@NotNull String containerDSL) {
+    default List<T> containerFromDSL(@NotNull String containerDSL) {
         if (containerDSL.isBlank()) {
             return new ArrayList<>();
         }

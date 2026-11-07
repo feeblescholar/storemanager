@@ -6,45 +6,43 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.List;
 
-public interface DatabaseCommand {
-
-    public class NoSuchEntityException extends RuntimeException {
-        public NoSuchEntityException(String message) {
+ public interface DatabaseCommand {
+     class NoSuchEntityException extends RuntimeException {
+         NoSuchEntityException(String message) {
             super(message);
         }
-    }
+     }
+     void load(@NotNull File directory);
 
-    public void load(@NotNull File directory);
+     void save(@NotNull File directory);
 
-    public void save(@NotNull File directory);
+     void addStore(@NotNull StoreDTO storeDTO);
 
-    public void addStore(@NotNull StoreDTO storeDTO);
+     void addEmployee(@NotNull EmployeeDTO employeeDTO);
 
-    public void addEmployee(@NotNull EmployeeDTO employeeDTO);
+     void addProduct(@NotNull ProductDTO productDTO);
 
-    public void addProduct(@NotNull ProductDTO productDTO);
+     List<StoreDTO> listStores();
 
-    public List<StoreDTO> listStores();
+     List<EmployeeDTO> listEmployees();
 
-    public List<EmployeeDTO> listEmployees();
+     List<EmployeeDTO> listStoreEmployees(@NotNull StoreDTO storeDTO) throws NoSuchEntityException;
 
-    public List<EmployeeDTO> listStoreEmployees(@NotNull StoreDTO storeDTO) throws NoSuchEntityException;
+     List<ProductDTO> listProducts();
 
-    public List<ProductDTO> listProducts();
+     List<ProductDTO> listStoreProducts(@NotNull StoreDTO storeDTO) throws NoSuchEntityException;
 
-    public List<ProductDTO> listStoreProducts(@NotNull StoreDTO storeDTO) throws NoSuchEntityException;
+     void linkEmployeeToStore(@NotNull StoreDTO storeDTO, @NotNull EmployeeDTO employeeDTO) throws NoSuchEntityException;
 
-    public void linkEmployeeToStore(@NotNull StoreDTO storeDTO, @NotNull EmployeeDTO employeeDTO) throws NoSuchEntityException;
+     void unlinkEmployeeFromStore(@NotNull StoreDTO storeDTO, @NotNull EmployeeDTO employeeDTO) throws NoSuchEntityException;
 
-    public void unlinkEmployeeFromStore(@NotNull StoreDTO storeDTO, @NotNull EmployeeDTO employeeDTO) throws NoSuchEntityException;
+     void addProductToStore(@NotNull StoreDTO storeDTO, @NotNull ProductDTO productDTO) throws NoSuchEntityException;
 
-    public void addProductToStore(@NotNull StoreDTO storeDTO, @NotNull ProductDTO productDTO) throws NoSuchEntityException;
+     void removeProductFromStore(@NotNull StoreDTO storeDTO, @NotNull ProductDTO productDTO) throws NoSuchEntityException;
 
-    public void removeProductFromStore(@NotNull StoreDTO storeDTO, @NotNull ProductDTO productDTO) throws NoSuchEntityException;
+     void removeStore(@NotNull StoreDTO storeDTO) throws NoSuchEntityException;
 
-    public void removeStore(@NotNull StoreDTO storeDTO) throws NoSuchEntityException;
+     void removeEmployee(@NotNull EmployeeDTO employeeDTO) throws NoSuchEntityException;
 
-    public void removeEmployee(@NotNull EmployeeDTO employeeDTO) throws NoSuchEntityException;
-
-    public void removeProduct(@NotNull ProductDTO productDTO) throws NoSuchEntityException;
+     void removeProduct(@NotNull ProductDTO productDTO) throws NoSuchEntityException;
 }

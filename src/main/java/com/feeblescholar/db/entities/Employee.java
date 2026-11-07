@@ -35,7 +35,6 @@ public class Employee extends AbstractEntity implements Transferable<EmployeeDTO
 
     @Override
     public void updateFromDTO(EmployeeDTO employeeDTO) {
-        id = employeeDTO.id();
         name = employeeDTO.name();
         position = employeeDTO.position();
         salary = employeeDTO.salary();

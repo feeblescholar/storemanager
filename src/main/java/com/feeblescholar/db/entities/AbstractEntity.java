@@ -3,7 +3,7 @@ package com.feeblescholar.db.entities;
 import java.util.UUID;
 
 public abstract class AbstractEntity {
-    public String id;
+    protected String id;
 
     protected AbstractEntity() {
         this.generateID();

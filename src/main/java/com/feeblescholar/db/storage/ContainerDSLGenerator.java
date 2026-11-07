@@ -16,7 +16,7 @@ public interface ContainerDSLGenerator<T extends AbstractEntity> extends DSLGene
      * Note: null attributes are written as null.
      * @param container The objects to be serialized in DSL.
      */
-    public default String containerToDSL(@NotNull List<T> container) {
+    default String containerToDSL(@NotNull List<T> container) {
         return container.stream().map(this::objectToDSL).collect(Collectors.joining(" | "));
     }
 }
