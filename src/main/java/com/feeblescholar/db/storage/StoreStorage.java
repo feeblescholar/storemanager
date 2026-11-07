@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class StoreStorage extends AbstractStorage<Store> implements StorageCommand<StoreDTO> {
-    public StoreStorage(@NotNull ContainerDSLParser<Store> parserStrategy) {
-        super(parserStrategy);
+    public StoreStorage(@NotNull ContainerDSLParser<Store> parserStrategy,
+                        @NotNull ContainerDSLGenerator<Store> generatorStrategy) {
+        super(parserStrategy, generatorStrategy);
     }
 
     @Override

@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class EmployeeStorage extends AbstractStorage<Employee> implements StorageCommand<EmployeeDTO> {
-    public EmployeeStorage(@NotNull ContainerDSLParser<Employee> parserStrategy) {
-        super(parserStrategy);
+    public EmployeeStorage(@NotNull ContainerDSLParser<Employee> parserStrategy,
+                           @NotNull ContainerDSLGenerator<Employee> generatorStrategy) {
+        super(parserStrategy, generatorStrategy);
     }
 
     @Override

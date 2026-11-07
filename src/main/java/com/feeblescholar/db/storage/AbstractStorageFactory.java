@@ -18,11 +18,15 @@ public interface AbstractStorageFactory {
 
     public JunctionCommand createJunction();
 
-    public ProductStorage createProductStorage(@NotNull ContainerDSLParser<Product> customStrategy);
+    public ProductStorage createProductStorage(@NotNull ContainerDSLParser<Product> customParser,
+                                               @NotNull ContainerDSLGenerator<Product> customGenerator);
 
-    public EmployeeStorage createEmployeeStorage(@NotNull ContainerDSLParser<Employee> customStrategy);
+    public EmployeeStorage createEmployeeStorage(@NotNull ContainerDSLParser<Employee> customParser,
+                                                 @NotNull ContainerDSLGenerator<Employee> customGenerator);
 
-    public StoreStorage createStoreStorage(@NotNull ContainerDSLParser<Store> customStrategy);
+    public StoreStorage createStoreStorage(@NotNull ContainerDSLParser<Store> customParser,
+                                           @NotNull ContainerDSLGenerator<Store> customGenerator);
 
-    public Junction createJunction(@NotNull ContainerDSLParser<Relation> customStrategy);
+    public Junction createJunction(@NotNull ContainerDSLParser<Relation> customParser,
+                                   @NotNull ContainerDSLGenerator<Relation> customGenerator);
 }

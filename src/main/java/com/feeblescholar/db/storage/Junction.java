@@ -10,8 +10,9 @@ import java.util.stream.Collectors;
 
 public class Junction extends AbstractStorage<Relation> implements JunctionCommand {
 
-    public Junction(@NotNull ContainerDSLParser<Relation> parserStrategy) {
-        super(parserStrategy);
+    public Junction(@NotNull ContainerDSLParser<Relation> parserStrategy,
+                    @NotNull ContainerDSLGenerator<Relation> generatorStrategy) {
+        super(parserStrategy, generatorStrategy);
     }
 
     @Override

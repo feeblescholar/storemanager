@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProductStorage extends AbstractStorage<Product> implements StorageCommand<ProductDTO> {
-    public ProductStorage(@NotNull ContainerDSLParser<Product> parserStrategy) {
-        super(parserStrategy);
+    public ProductStorage(@NotNull ContainerDSLParser<Product> parserStrategy,
+                          @NotNull ContainerDSLGenerator<Product> generatorStrategy) {
+        super(parserStrategy, generatorStrategy);
     }
 
     @Override
