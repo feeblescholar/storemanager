@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public interface ContainerDSLParser<T extends AbstractEntity> extends DSLParser<T> {
 
     /**
-     * The format is the following: attribute1: value # attribute2: value, ... | arribute1: value # ... <br>
+     * The format is the following: attribute1: value # attribute2: value, ... | attribute1: value # ... <br>
      * Note: if an object does not list all of its attributes the default value is null.
      * @param containerDSL The string to be parsed in DSL.
      */

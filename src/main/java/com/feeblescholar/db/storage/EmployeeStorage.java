@@ -4,6 +4,10 @@ import com.feeblescholar.db.entities.Employee;
 import com.feeblescholar.db.entities.EmployeeDTO;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class EmployeeStorage extends AbstractStorage<Employee> implements StorageCommand<EmployeeDTO> {
     public EmployeeStorage(@NotNull ContainerDSLParser<Employee> parserStrategy) {
         super(parserStrategy);
@@ -19,6 +23,11 @@ public class EmployeeStorage extends AbstractStorage<Employee> implements Storag
     @Override
     public EmployeeDTO read(@NotNull String uuid) {
         return storage.get(findFirstWithID(uuid)).toDTO();
+    }
+
+    @Override
+    public List<EmployeeDTO> readAll() {
+        return storage.stream().map(Employee::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
