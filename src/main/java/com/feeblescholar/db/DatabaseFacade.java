@@ -15,23 +15,23 @@ public class DatabaseFacade implements DatabaseCommand {
     StorageCommand<StoreDTO> storeStorage;
     StorageCommand<EmployeeDTO> employeeStorage;
     StorageCommand<ProductDTO> productStorage;
-    JunctionCommand storeEmployeeJunction;
-    JunctionCommand storeProductJunction;
+    JunctionCommand<RelationDTO> storeEmployeeJunction;
+    JunctionCommand<InventoryRelationDTO> inventoryJunction;
 
-    private void validateStoreEmployeeRelation(Relation relation) throws NoSuchEntityException {
+    private void validateStoreEmployeeRelation(RelationalDTO relation) throws NoSuchEntityException {
         try {
-            storeStorage.read(relation.getUUID1());
-            employeeStorage.read(relation.getUUID2());
+            storeStorage.read(relation.uuid1());
+            employeeStorage.read(relation.uuid2());
         }
         catch (NoSuchElementException nse) {
             throw new NoSuchEntityException("Relation cannot be resolved: No such store or employee with the given ID.");
         }
     }
 
-    private void validateStoreProductRelation(Relation relation) throws NoSuchEntityException {
+    private void validateStoreProductRelation(RelationalDTO relation) throws NoSuchEntityException {
         try {
-            storeStorage.read(relation.getUUID1());
-            productStorage.read(relation.getUUID2());
+            storeStorage.read(relation.uuid1());
+            productStorage.read(relation.uuid2());
         }
         catch (NoSuchElementException nse) {
             throw new NoSuchEntityException("Relation cannot be resolved: No such store or product with the given ID.");
@@ -42,13 +42,13 @@ public class DatabaseFacade implements DatabaseCommand {
     public DatabaseFacade(@NotNull StorageCommand<StoreDTO> storeStorage,
                           @NotNull StorageCommand<EmployeeDTO> employeeStorage,
                           @NotNull StorageCommand<ProductDTO> productStorage,
-                          @NotNull JunctionCommand storeEmployeeJunction,
-                          @NotNull JunctionCommand storeProductJunction) {
+                          @NotNull JunctionCommand<RelationDTO> storeEmployeeJunction,
+                          @NotNull JunctionCommand<InventoryRelationDTO> inventoryJunction) {
         this.storeStorage = storeStorage;
         this.employeeStorage = employeeStorage;
         this.productStorage = productStorage;
         this.storeEmployeeJunction = storeEmployeeJunction;
-        this.storeProductJunction = storeProductJunction;
+        this.inventoryJunction = inventoryJunction;
     }
 
     @Override
@@ -99,36 +99,63 @@ public class DatabaseFacade implements DatabaseCommand {
 
     @Override
     public List<ProductDTO> listStoreProducts(@NotNull StoreDTO storeDTO) throws NoSuchEntityException {
-        List<RelationDTO> relations = storeProductJunction.getRelationsWithParent(storeDTO.id());
+        List<InventoryRelationDTO> relations = inventoryJunction.getRelationsWithParent(storeDTO.id());
         return relations.stream().map(r -> productStorage.read(r.uuid2())).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
     public void linkEmployeeToStore(@NotNull StoreDTO storeDTO, @NotNull EmployeeDTO employeeDTO) throws NoSuchEntityException {
-        final Relation relation = new Relation(storeDTO.id(), employeeDTO.id());
+        final RelationDTO relation = new RelationDTO(null, storeDTO.id(), employeeDTO.id());
         validateStoreEmployeeRelation(relation);
-        storeEmployeeJunction.addRelation(relation.toDTO());
+        storeEmployeeJunction.addRelation(relation);
     }
 
     @Override
     public void unlinkEmployeeFromStore(@NotNull StoreDTO storeDTO, @NotNull EmployeeDTO employeeDTO) throws NoSuchEntityException {
-        final Relation relation = new Relation(storeDTO.id(), employeeDTO.id());
+        final RelationDTO relation = new RelationDTO(null, storeDTO.id(), employeeDTO.id());
         validateStoreEmployeeRelation(relation);
-        storeEmployeeJunction.removeRelation(relation.toDTO());
+        storeEmployeeJunction.removeRelation(relation.uuid1(), relation.uuid2());
     }
 
     @Override
     public void addProductToStore(@NotNull StoreDTO storeDTO, @NotNull ProductDTO productDTO) throws NoSuchEntityException {
-        final Relation relation = new Relation(storeDTO.id(), productDTO.id());
-        validateStoreProductRelation(relation);
-        storeProductJunction.addRelation(relation.toDTO());
+        final InventoryRelationDTO inventory = new InventoryRelation(storeDTO.id(), productDTO.id()).toDTO();
+        validateStoreProductRelation(inventory);
+        inventoryJunction.addRelation(inventory);
     }
 
     @Override
     public void removeProductFromStore(@NotNull StoreDTO storeDTO, @NotNull ProductDTO productDTO) throws NoSuchEntityException {
-        final Relation relation = new Relation(storeDTO.id(), productDTO.id());
+        final RelationDTO relation = new RelationDTO(null, storeDTO.id(), productDTO.id());
         validateStoreProductRelation(relation);
-        storeProductJunction.removeRelation(relation.toDTO());
+        inventoryJunction.removeRelation(relation.uuid1(), relation.uuid2());
+    }
+
+    @Override
+    public InventoryRelationDTO getInventory(@NotNull StoreDTO storeDTO, @NotNull ProductDTO productDTO) throws NoSuchEntityException {
+        validateStoreProductRelation(new RelationDTO(null, storeDTO.id(), productDTO.id()));
+        try {
+            return inventoryJunction.getRelation(storeDTO.id(), productDTO.id());
+        }
+        catch (NoSuchElementException nse) {
+            throw new NoSuchEntityException("Product is not in the given store.");
+        }
+    }
+
+    @Override
+    public List<InventoryRelationDTO> listStoreInventory(@NotNull StoreDTO storeDTO) {
+        return inventoryJunction.getRelationsWithParent(storeDTO.id());
+    }
+
+    @Override
+    public void updateInventory(@NotNull InventoryRelationDTO inventoryDTO) throws NoSuchEntityException {
+        validateStoreProductRelation(inventoryDTO);
+        try {
+            inventoryJunction.updateRelation(inventoryDTO);
+        }
+        catch (NoSuchElementException nse) {
+            throw new NoSuchEntityException("Product is not in the given store.");
+        }
     }
 
     @Override
@@ -139,6 +166,8 @@ public class DatabaseFacade implements DatabaseCommand {
         catch (NoSuchElementException nse) {
             throw new NoSuchEntityException("Store does not exist with the given ID.");
         }
+        storeEmployeeJunction.removeAllChildren(storeDTO.id());
+        inventoryJunction.removeAllChildren(storeDTO.id());
     }
 
     @Override
@@ -149,6 +178,7 @@ public class DatabaseFacade implements DatabaseCommand {
         catch (NoSuchElementException nse) {
             throw new NoSuchEntityException("Employee does not exist with the given ID.");
         }
+        storeEmployeeJunction.removeIfHasChild(employeeDTO.id());
     }
 
     @Override
@@ -159,5 +189,6 @@ public class DatabaseFacade implements DatabaseCommand {
         catch (NoSuchElementException nse) {
             throw new NoSuchEntityException("Product does not exist with the given ID.");
         }
+        inventoryJunction.removeIfHasChild(productDTO.id());
     }
 }

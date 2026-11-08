@@ -15,8 +15,14 @@ public class DefaultStorageFactory implements AbstractStorageFactory {
         };
     }
 
-    public JunctionCommand createJunction() {
-        return new Junction(new JunctionParser(), new JunctionGenerator());
+    @Override
+    public JunctionCommand<RelationDTO> createJunction() {
+        return new Junction<>(new JunctionParser(), new JunctionGenerator(), Relation::new);
+    }
+
+    @Override
+    public JunctionCommand<InventoryRelationDTO> createInventoryJunction() {
+        return new Junction<>(new InventoryParser(), new InventoryGenerator(), InventoryRelation::new);
     }
 
     @Override
@@ -38,8 +44,15 @@ public class DefaultStorageFactory implements AbstractStorageFactory {
     }
 
     @Override
-    public Junction createJunction(@NotNull ContainerDSLParser<Relation> customParser,
-                                   @NotNull ContainerDSLGenerator<Relation> customGenerator) {
-        return new Junction(customParser, customGenerator);
+    public Junction<Relation, RelationDTO> createJunction(@NotNull ContainerDSLParser<Relation> customParser,
+                                                          @NotNull ContainerDSLGenerator<Relation> customGenerator) {
+        return new Junction<>(customParser, customGenerator, Relation::new);
+    }
+
+    @Override
+    public Junction<InventoryRelation, InventoryRelationDTO> createInventoryJunction(
+            @NotNull ContainerDSLParser<InventoryRelation> customParser,
+            @NotNull ContainerDSLGenerator<InventoryRelation> customGenerator) {
+        return new Junction<>(customParser, customGenerator, InventoryRelation::new);
     }
 }

@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 public class JunctionParser implements ContainerDSLParser<Relation> {
     @Override
     public Relation objectFromDSL(@NotNull String dsl) {
-        Relation store = new Relation(null, null);
+        Relation store = new Relation();
         String[] pairs = dsl.split("#");
         for (String pair : pairs) {
             String[] keyValue = pair.split(":", 2);

@@ -1,9 +1,6 @@
 package com.feeblescholar.db.storage;
 
-import com.feeblescholar.db.entities.Employee;
-import com.feeblescholar.db.entities.Product;
-import com.feeblescholar.db.entities.Relation;
-import com.feeblescholar.db.entities.Store;
+import com.feeblescholar.db.entities.*;
 import org.jetbrains.annotations.NotNull;
 
 public interface AbstractStorageFactory {
@@ -16,7 +13,9 @@ public interface AbstractStorageFactory {
 
     <T> StorageCommand<T> createStorage(@NotNull StorageType storageType);
 
-    JunctionCommand createJunction();
+    JunctionCommand<RelationDTO> createJunction();
+
+    JunctionCommand<InventoryRelationDTO> createInventoryJunction();
 
     ProductStorage createProductStorage(@NotNull ContainerDSLParser<Product> customParser,
                                                @NotNull ContainerDSLGenerator<Product> customGenerator);
@@ -27,6 +26,10 @@ public interface AbstractStorageFactory {
     StoreStorage createStoreStorage(@NotNull ContainerDSLParser<Store> customParser,
                                            @NotNull ContainerDSLGenerator<Store> customGenerator);
 
-    Junction createJunction(@NotNull ContainerDSLParser<Relation> customParser,
-                                   @NotNull ContainerDSLGenerator<Relation> customGenerator);
+    Junction<Relation, RelationDTO> createJunction(@NotNull ContainerDSLParser<Relation> customParser,
+                                                   @NotNull ContainerDSLGenerator<Relation> customGenerator);
+
+    Junction<InventoryRelation, InventoryRelationDTO> createInventoryJunction(
+            @NotNull ContainerDSLParser<InventoryRelation> customParser,
+            @NotNull ContainerDSLGenerator<InventoryRelation> customGenerator);
 }

@@ -40,6 +40,12 @@ import java.util.List;
 
      void removeProductFromStore(@NotNull StoreDTO storeDTO, @NotNull ProductDTO productDTO) throws NoSuchEntityException;
 
+     InventoryRelationDTO getInventory(@NotNull StoreDTO storeDTO, @NotNull ProductDTO productDTO) throws NoSuchEntityException;
+
+     List<InventoryRelationDTO> listStoreInventory(@NotNull StoreDTO storeDTO);
+
+     void updateInventory(@NotNull InventoryRelationDTO inventoryDTO) throws NoSuchEntityException;
+
      void removeStore(@NotNull StoreDTO storeDTO) throws NoSuchEntityException;
 
      void removeEmployee(@NotNull EmployeeDTO employeeDTO) throws NoSuchEntityException;

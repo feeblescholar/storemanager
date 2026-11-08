@@ -1,20 +1,26 @@
 package com.feeblescholar.db.storage;
 
-import com.feeblescholar.db.entities.Relation;
-import com.feeblescholar.db.entities.RelationDTO;
+import com.feeblescholar.db.entities.RelationalDTO;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public interface JunctionCommand {
+/**
+ * <i>JunctionCommand</i> allows operations on parent-child relations, identified by the parent and child UUIDs.
+ */
+public interface JunctionCommand<D extends RelationalDTO> {
 
-    void addRelation(@NotNull RelationDTO dto);
+    void addRelation(@NotNull D dto);
 
-    List<RelationDTO> getRelationsWithParent(@NotNull String parentUUID);
+    D getRelation(@NotNull String parentUUID, @NotNull String childUUID);
 
-    List<RelationDTO> getRelationsWithChild(@NotNull String childUUID);
+    List<D> getRelationsWithParent(@NotNull String parentUUID);
 
-    void removeRelation(@NotNull RelationDTO dto);
+    List<D> getRelationsWithChild(@NotNull String childUUID);
+
+    void updateRelation(@NotNull D dto);
+
+    void removeRelation(@NotNull String parentUUID, @NotNull String childUUID);
 
     void removeAllChildren(@NotNull String parentUUID);
 
